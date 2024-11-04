@@ -7,7 +7,7 @@ lastname = ""
 fullname = ""
 CORS = ""
 tasks = []
-datafile = '\work project\outbound tasks LOCAL.xlsx'
+datafile = 'outbound tasks LOCAL.xlsx'
 
 
 
@@ -54,7 +54,7 @@ def find_employees(employee_list, firstname=None, lastname=None, fullname=None):
             results.append(employee)
         elif firstname and employee.firstname.lower() == firstname.lower():
             results.append(employee)
-        elif lastname and employee.lastname.lower() == lastname.lower:
+        elif lastname and employee.lastname.lower() == lastname.lower():
             results.append(employee)
 
     return results
@@ -195,6 +195,26 @@ def update_employee(datafile):
     
     print(f"Employee {firstname} {lastname} has been updated.")
 
+def search_by_task(datafile):
+    df = pd.read_excel(datafile)
+    taskInput = input("Enter the task to search for: ").strip().upper()
+    
+    task_columns = df.columns[3:]
+    if taskInput in task_columns:
+        print("here")
+        results = df[df[taskInput].str.lower() == taskInput.lower()]
+        
+
+        if not results.empty:
+            print("Employees assigned to this task:")
+            for index, emp in results.iterrows():
+                print(emp["FirstName"] + ' ' + emp["LastName"])
+        else:
+            print("No employees found for this task.")
+
+    else:
+        print(f"Task '{taskInput}' was not found")
+
     
 
 
@@ -208,7 +228,7 @@ if __name__ == "__main__":
     employee_list = load_spreadsheet(datafile)
     
     while True:
-        action = input("Do you want to SEARCH an employee, ADD an employee, UPDATE an employee, DELETE an employee, or QUIT?   ").strip().lower()
+        action = input("Do you want to SEARCH an employee, ADD an employee, UPDATE an employee, DELETE an employee, or QUIT? You can also search by job: ").strip().lower()
 
         if action == "search": 
         # prompts user with input of name
@@ -246,6 +266,9 @@ if __name__ == "__main__":
 
         elif action == "quit":
             exit()
+
+        elif action == "job":
+            search_by_task(datafile)
 
         else:
             print("Invalid option, please try again")
