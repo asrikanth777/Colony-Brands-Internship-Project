@@ -195,7 +195,29 @@ def update_employee(datafile):
     
     print(f"Employee {firstname} {lastname} has been updated.")
 
+import pandas as pd
+
+def search_by_task(datafile):
+    df = pd.read_excel(datafile)
+    taskInput = input("Enter the task to search for: ").strip().upper()  # Convert input to uppercase
     
+    # Assuming task columns start from the 4th column (index 3)
+    task_columns = df.columns[3:]
+
+    # Check if the task input matches any task column names (in uppercase)
+    if taskInput in task_columns:
+        # Filter employees based on the task assigned
+        results = df[df[taskInput].str.lower() == taskInput.lower()]  # This checks for the task
+
+        if not results.empty:  # Check if results DataFrame is not empty
+            print("Employees assigned to this task:")
+            for index, emp in results.iterrows():  # Correctly using iterrows()
+                print(emp["FirstName"] + ' ' + emp["LastName"])  # Print full name
+        else:
+            print("No employees found for this task.")
+    else:
+        print(f"Task '{taskInput}' was not found.")
+
 
 
 
@@ -208,7 +230,7 @@ if __name__ == "__main__":
     employee_list = load_spreadsheet(datafile)
     
     while True:
-        action = input("Do you want to SEARCH an employee, ADD an employee, UPDATE an employee, DELETE an employee, or QUIT?   ").strip().lower()
+        action = input("Do you want to SEARCH an employee, ADD an employee, UPDATE an employee, DELETE an employee, or QUIT? You can also search by JOB:   ").strip().lower()
 
         if action == "search": 
         # prompts user with input of name
@@ -246,6 +268,9 @@ if __name__ == "__main__":
 
         elif action == "quit":
             exit()
+        
+        elif action == "job":
+            search_by_task(datafile)
 
         else:
             print("Invalid option, please try again")
