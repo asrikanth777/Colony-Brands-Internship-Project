@@ -27,7 +27,6 @@ class Employee:
 def load_spreadsheet(datafile):
     # reads excel file and makes them as lists of strings and what not
     database = pd.read_excel(datafile)
-
     employee_list = []
 
     #iterates through each row header and pulls the strings below in each row 
@@ -60,7 +59,6 @@ def find_employees(employee_list, firstname=None, lastname=None, fullname=None):
     return results
 
 def create_employee(datafile):
-
     # Load the existing Excel file into a DataFrame
     df = pd.read_excel(datafile)
 
@@ -70,11 +68,6 @@ def create_employee(datafile):
 
     if firstname in df and lastname in df:
         print("This employee is already in the database, start over")
-        
-    
-    exit()
-    
-    
 
     # Create a new row to append to the DataFrame
     new_row = {
@@ -228,7 +221,7 @@ if __name__ == "__main__":
     employee_list = load_spreadsheet(datafile)
     
     while True:
-        action = input("Do you want to SEARCH an employee, ADD an employee, UPDATE an employee, DELETE an employee, or QUIT? You can also search by job: ").strip().lower()
+        action = input("Do you want to SEARCH an employee, ADD an employee, UPDATE an employee, DELETE an employee, or QUIT? You can also search by job:   ").strip().lower()
 
         if action == "search": 
         # prompts user with input of name
